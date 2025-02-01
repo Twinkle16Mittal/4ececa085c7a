@@ -6,11 +6,11 @@ jobs:
   example-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Set first environment variable
-        run: echo "FIRST_VAR=Hello" >> $GITHUB_ENV
+      - name: Calculate and set variables
+        id: vars
+        run: |
+          echo "first_var=Hello" >> $GITHUB_OUTPUT
+          echo "second_var=Hello World" >> $GITHUB_OUTPUT
 
-      - name: Set second environment variable using the first
-        run: echo "SECOND_VAR=${FIRST_VAR} World" >> $GITHUB_ENV
-
-      - name: Use the environment variables
-        run: echo "$SECOND_VAR"  # This will output "Hello World"
+      - name: Use variables
+        run: echo "${{ steps.vars.outputs.second_var }}"  # Outputs "Hello World"
