@@ -2,17 +2,20 @@ name: Example Workflow
 
 on: [push, pull_request]
 
-env:
-  FIRST_VAR: 'hello'
-  SECOND_VAR: '${{ env.FIRST_VAR }} world'  # This will NOT expand as expected
-
 jobs:
   my-job:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
     steps:
-      - name: Echo variables
+      - name: Set FIRST_VAR
+        run: echo "FIRST_VAR=hello" >> $GITHUB_ENV  # Sets FIRST_VAR
+      
+      - name: Set SECOND_VAR using FIRST_VAR
+        run: echo "SECOND_VAR=${FIRST_VAR} world" >> $GITHUB_ENV
+      
+      - name: Check the variables
         run: |
-          echo "$SECOND_VAR"  # Outputs: '${{ env.FIRST_VAR }} world', not 'hello world'
+          echo "$FIRST_VAR"      # Outputs: hello
+          echo "$SECOND_VAR"     # Outputs: hello world
 
 
 
