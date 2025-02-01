@@ -3,19 +3,26 @@ name: Example Workflow
 on: [push, pull_request]
 
 jobs:
-  my-job:
+  your_job:
+    # Define a job ID for downstream identification
     runs-on: ubuntu-latest
+
+    # Set environment variables at the job level
+    env:
+      FIRST_VAR: "hello"
+
     steps:
-      - name: Set FIRST_VAR
-        run: echo "FIRST_VAR=hello" >> $GITHUB_ENV  # Sets FIRST_VAR
-      
-      - name: Set SECOND_VAR using FIRST_VAR
-        run: echo "SECOND_VAR=${FIRST_VAR} world" >> $GITHUB_ENV
-      
-      - name: Check the variables
+      # Use a run command to define and export a new environment variable based on the existing one
+      - name: Define and Export SECOND_VAR
         run: |
-          echo "$FIRST_VAR"      # Outputs: hello
-          echo "$SECOND_VAR"     # Outputs: hello world
+          # Define SECOND_VAR by appending to FIRST_VAR
+          echo "SECOND_VAR=${FIRST_VAR} world" >> $GITHUB_ENV
+
+      # Check if the SECOND_VAR is set properly
+      - name: Check SECOND_VAR
+        run: |
+          echo "SECOND_VAR is $SECOND_VAR"
+
 
 
 
