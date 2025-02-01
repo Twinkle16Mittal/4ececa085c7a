@@ -1,0 +1,16 @@
+name: Example Workflow
+
+on: [push, pull_request]
+
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set first environment variable
+        run: echo "FIRST_VAR=Hello" >> $GITHUB_ENV
+
+      - name: Set second environment variable using the first
+        run: echo "SECOND_VAR=${FIRST_VAR} World" >> $GITHUB_ENV
+
+      - name: Use the environment variables
+        run: echo "$SECOND_VAR"  # This will output "Hello World"
